@@ -1,0 +1,17 @@
+This little script can be used to analyze a jbackup-generated dump and
+tell you what posts have used what friends groups.  This will list any
+post that is protected, including those that are friends-only.
+
+The only thing you need to do is use jbackup to dump your journal.
+Refer to the jbackup usage doc for instructions on how.  Then simply
+invoke friendanalysis.pl thusly:
+
+./friendanalysis.pl <username>
+
+This will find the jbackup file and go to town on it.  Be warned, you
+will be asked for your password.  This is done so that we can fetch the
+names of the groups from the server.
+
+I've tried hard to make it relatively error-resistant.  Okay, that's a
+lie, but someday I will.  If you find bugs or optimizations, please let
+me know.
