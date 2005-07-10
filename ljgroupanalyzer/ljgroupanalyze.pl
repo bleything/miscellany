@@ -17,6 +17,7 @@ use XMLRPC::Lite;
 
 # OPTIONS
 my $server = "www.livejournal.com";
+my $ignore_fo = 0; # 0 to include friends only, 1 to skip
 
 # SANITY
 die("Usage: $0 <journal name>\n") unless defined $ARGV[0];
@@ -37,6 +38,7 @@ my %posts;
 # GO TO TOWN
 foreach my $jitemid (split /,/, $db{'event:ids'}) {
     next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
+    next if ($ignore_fo == 1 && $db{"event:allowmask:$jitemid"} == 1);
 
     my $group = defined $db{"event:allowmask:$jitemid"} ? $groups{$db{"event:allowmask:$jitemid"}} : "GROUP DELETED";
     my $postid = $jitemid * 256 + $db{"event:anum:$jitemid"};
