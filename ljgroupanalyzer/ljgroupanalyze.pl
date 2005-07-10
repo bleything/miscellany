@@ -39,7 +39,7 @@ foreach my $jitemid (split /,/, $db{'event:ids'}) {
 
     my $group = defined $db{"event:allowmask:$jitemid"} ? $groups{$db{"event:allowmask:$jitemid"}} : "GROUP DELETED";
     my $postid = $jitemid * 256 + $db{"event:anum:$jitemid"};
-    print boxify("$group -- http://$server/users/$journal/$postid.html");
+    print "$group -- http://$server/users/$journal/$postid.html\n";
 }
 
 # clean up
