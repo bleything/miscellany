@@ -48,7 +48,7 @@ foreach my $jitemid (split /,/, $db{'event:ids'}) {
 
 foreach my $group (sort keys %posts) {
     print boxify($group);
-    foreach my $post (@{$posts{$group}}) {
+    foreach my $post (sort {$a<=>$b} @{$posts{$group}}) {
         print "http://$server/users/$journal/$post.html\n";
     }
 }
