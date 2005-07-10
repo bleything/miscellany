@@ -1,0 +1,18 @@
++--------------------------------------------------+
+| Ben Bleything's Toys                             |
+| Copyright 2005 Ben Bleything <ben@bleything.net> |
+| Provided under the BSD license.                  |
++--------------------------------------------------+
+
+This repository includes all sorts of little toys and scripts I've
+written over the years.  They're all available for public use.  Beware,
+though, some of them are untested and may be dangerous or insecure or
+both!  I make no claim of warranty or responsibility, so if you hose
+your data with my scripts, it's your fault, not mine :)
+
+I'm always interested in hearing feedback about my stuff, so feel free
+to email me if you've got something to say.  For the forseeable future,
+this project will be housed at http://projects.bleything.net/toys/ and
+available via Subversion at http://svn.bleything.net/toys/
+
+Thanks for checking it out!
