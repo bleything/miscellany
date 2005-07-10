@@ -27,30 +27,40 @@ my $xmlrpc = new XMLRPC::Lite;
 $xmlrpc->proxy("http://$server/interface/xmlrpc");
 
 # Get the password
-my $pwd = getpass();
+my $pwd = get_pass();
 my %groups = get_groups($journal, $pwd);
 
 # Open up the jbackup dump... or don't.
 tie my %db, 'GDBM_File', "$journal.jbak", &GDBM_READER, 0600 or die "Could not open/tie $journal.jbak $!\n";
 
+my %posts;
 # GO TO TOWN
 foreach my $jitemid (split /,/, $db{'event:ids'}) {
     next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
 
     my $group = defined $db{"event:allowmask:$jitemid"} ? $groups{$db{"event:allowmask:$jitemid"}} : "GROUP DELETED";
     my $postid = $jitemid * 256 + $db{"event:anum:$jitemid"};
-    print "$group -- http://$server/users/$journal/$postid.html\n";
+
+    push @{$posts{$group}}, $postid;
+}
+
+foreach my $group (sort keys %posts) {
+    print boxify($group);
+    foreach my $post (@{$posts{$group}}) {
+        print "http://$server/users/$journal/$post.html\n";
+    }
 }
 
 # clean up
 untie %db;
 
 # Prompts for password, cleans it up once received
-sub getpass {
+sub get_pass {
 print "Enter your password: ";
     ReadMode('noecho');
     my $in = ReadLine(0);
     ReadMode('normal');
+    print "\n";
     chomp $in;
     return $in;
 }
