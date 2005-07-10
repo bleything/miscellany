@@ -17,7 +17,7 @@ use XMLRPC::Lite;
 
 # OPTIONS
 my $server = "www.livejournal.com";
-my $ignore_fo = 0; # 0 to include friends only, 1 to skip
+my $ignore_fo = 1; # 0 to include friends only, 1 to skip
 
 # SANITY
 die("Usage: $0 <journal name>\n") unless defined $ARGV[0];
