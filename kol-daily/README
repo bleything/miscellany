@@ -1,0 +1,15 @@
+This is a little tool used to automate the boring day-to-day tasks that
+a player in Kingdom of Loathing may want to undertake.  Currently, it
+supports the following:
+
+  * Mushroom Farming (1st-gen only)
+  * Dry Noodles/Scrumptious Reagent conjuring
+
+More to come as time (and interest) allow.
+
+To set up the script, open it up in your favorite text editor, set
+your username and password, and follow the instructions to set up your
+desired actions.  Simple!
+
+Disclaimer: I'm not responsible for anything you screw up while using
+this.  I'm using it myself, so I'm suffering too.
