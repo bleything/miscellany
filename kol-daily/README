@@ -13,3 +13,9 @@ desired actions.  Simple!
 
 Disclaimer: I'm not responsible for anything you screw up while using
 this.  I'm using it myself, so I'm suffering too.
+
+KNOWN ISSUES
+
+  * Attempting to plant mushrooms in slots that already have spores will
+    result in picking (and wasting) those spores.  See Ticket #2 for
+    more.
