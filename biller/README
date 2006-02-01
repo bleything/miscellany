@@ -1,0 +1,12 @@
++--------------------------------------------------+
+| Biller                                           |
+| Copyright 2006 Ben Bleything <ben@bleything.net> |
+| Provided under the BSD license.                  |
++--------------------------------------------------+
+
+A set of scripts I use to keep track of my time and bill my clients.
+Almost certainly won't be useful for anyone but me, but here you go
+anyway :)
+
+Note: it requires ActiveRecord, and the schema/db.rb is set up for
+PostgreSQL.
