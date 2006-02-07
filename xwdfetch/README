@@ -1,0 +1,20 @@
++--------------------------------------------------+
+| xwdfetch.pl                                      |
+| Copyright 2006 Ben Bleything <ben@bleything.net> |
+| Provided under the BSD license.                  |
++--------------------------------------------------+
+
+I'm a crossword fanatic.  I recently got a sweet Palm Treo 650 and
+promptly installed some crossword software on it.  One of the coolest
+features is the ability to download puzzles from the internet.  I set
+that up, but I noticed I was getting some puzzles over and over.
+
+I had been getting my URLs from this mac app called PuzzleGetter
+(http://uregina.ca/~schelled/) which uses some AppleScript magic to
+fetch the correct filenames.  A lot of the sites distribute their
+puzzles with the date in the URL.  Hard to do on a palm.
+
+My solution?  Write xwdfetch.pl.  The idea is that it sits on a
+webserver as a CGI.  When you request the page with a particular GET
+argument, it fetches whichever crossword you asked for and forks it
+over.  Pretty slick, eh?
