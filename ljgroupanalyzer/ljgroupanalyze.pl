@@ -3,7 +3,7 @@
 #####################
 # ljgroupanalyze.pl #
 ##########################################################################
-# Copyright 2005 Ben Bleything <ben@bleything.net>                       #
+# Copyright 2005-2006 Ben Bleything <ben@bleything.net>                  #
 # Distributed under the BSD license.                                     #
 #                                                                        #
 # Please see the README for more information.                            #
