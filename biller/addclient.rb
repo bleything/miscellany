@@ -1,5 +1,14 @@
 #!/usr/bin/env ruby
 
+################
+# addclient.rb #
+##########################################################################
+# Copyright 2006 Ben Bleything <ben@bleything.net>                       #
+# Distributed under the BSD license.                                     #
+#                                                                        #
+# Please see the README for more information.                            #
+##########################################################################
+
 require 'db'
 
 client = Client.new

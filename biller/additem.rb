@@ -1,5 +1,14 @@
 #!/usr/bin/env ruby
 
+##############
+# additem.rb #
+##########################################################################
+# Copyright 2006 Ben Bleything <ben@bleything.net>                       #
+# Distributed under the BSD license.                                     #
+#                                                                        #
+# Please see the README for more information.                            #
+##########################################################################
+
 require 'db'
 
 item = Item.new
