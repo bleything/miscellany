@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 #####################
-# friendanalysis.pl #
+# ljgroupanalyze.pl #
 ##########################################################################
 # Copyright 2005 Ben Bleything <ben@bleything.net>                       #
 # Distributed under the BSD license.                                     #
@@ -40,10 +40,12 @@ foreach my $jitemid (split /,/, $db{'event:ids'}) {
     next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
     next if ($ignore_fo == 1 && $db{"event:allowmask:$jitemid"} == 1);
 
-    my $group = defined $db{"event:allowmask:$jitemid"} ? $groups{$db{"event:allowmask:$jitemid"}} : "GROUP DELETED";
     my $postid = $jitemid * 256 + $db{"event:anum:$jitemid"};
+    my $mask = $db{"event:allowmask:$jitemid"};
 
-    push @{$posts{$group}}, $postid;
+    foreach my $gm (keys %groups) {
+        push @{$posts{$groups{$gm}}}, $postid if (int($gm) & int($mask));
+    }
 }
 
 foreach my $group (sort keys %posts) {

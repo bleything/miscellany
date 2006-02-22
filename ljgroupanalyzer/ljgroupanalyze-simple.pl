@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
-#####################
-# friendanalysis.pl #
+############################
+# ljgroupanalyze-simple.pl #
 ##########################################################################
 # Copyright 2005 Ben Bleything <ben@bleything.net>                       #
 # Distributed under the BSD license.                                     #
