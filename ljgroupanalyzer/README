@@ -1,6 +1,15 @@
 This little script can be used to analyze a jbackup-generated dump and
-tell you what posts have used what friends groups.  This will list any
-post that is protected, including those that are friends-only.
+tell you what posts have used what friends groups.  By default, listing
+posts marked Friends Only is disabled.  To enable it, edit the script
+and change the line:
+
+my $ignore_fo = 1;
+
+to
+
+my $ignore_fo = 0;
+
+This will cause the script to also list posts that are FO.
 
 The only thing you need to do is use jbackup to dump your journal.
 Refer to the jbackup usage doc for instructions on how.  Then simply

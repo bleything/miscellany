@@ -23,6 +23,9 @@ my $ignore_fo = 1; # 0 to include friends only, 1 to skip
 die("Usage: $0 <journal name>\n") unless defined $ARGV[0];
 my $journal = $ARGV[0];
 
+# Open up the jbackup dump... or don't.
+tie my %db, 'GDBM_File', "$journal.jbak", &GDBM_READER, 0600 or die "Could not open/tie $journal.jbak: $!\nIs the file located in this directory?\n";
+
 # Create the xmlrpc object
 my $xmlrpc = new XMLRPC::Lite;
 $xmlrpc->proxy("http://$server/interface/xmlrpc");
@@ -30,9 +33,6 @@ $xmlrpc->proxy("http://$server/interface/xmlrpc");
 # Get the password
 my $pwd = get_pass();
 my %groups = get_groups($journal, $pwd);
-
-# Open up the jbackup dump... or don't.
-tie my %db, 'GDBM_File', "$journal.jbak", &GDBM_READER, 0600 or die "Could not open/tie $journal.jbak $!\n";
 
 my %posts;
 # GO TO TOWN
