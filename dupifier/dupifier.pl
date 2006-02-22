@@ -1,5 +1,15 @@
 #!/usr/bin/perl -w
 
+###############
+# dupifier.pl #
+##########################################################################
+# Copyright 2005 Ben Bleything <ben@bleything.net>                       #
+# Distributed under the BSD license.                                     #
+#                                                                        #
+# Please see the README for more information.                            #
+##########################################################################
+
+
 use strict;
 use File::Find;
 use Digest::MD5 qw(md5_hex);
