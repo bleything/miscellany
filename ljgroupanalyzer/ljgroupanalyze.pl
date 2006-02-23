@@ -29,6 +29,7 @@ GetOptions( \%opts,
     'friendsonly|f!',
     'help|h|?',
     'simple',
+    'empty|e',
 #    'html',        # not yet implemented
 #    'outfile|o=s', # not yet implemented
 );
@@ -65,6 +66,9 @@ OPTIONS
   -f, --friendsonly             Use this option if you would like to
                                 display Friends Only posts as well as
                                 filtered posts.
+
+  -e, --empty                   Causes friends groups with no posts to
+                                be displayed.
 
   -h, --help                    Display this message.
 
@@ -121,8 +125,24 @@ if( $opts{simple} ) {
     }
 
     # output!
-    foreach my $gm (sort {$groups{$a} cmp $groups{$b}} keys %posts) {
+
+    my @collection;
+    if( $opts{empty} ) {
+        @collection = keys %groups;
+    } else {
+        @collection = keys %posts;
+    }
+
+    foreach my $gm (sort {$groups{$a} cmp $groups{$b}} @collection) {
+        # if we're not showing FO posts, don't show the group
+        next if( $gm == 1 && $opts{empty} && $opts{friendsonly} == 0);
+
+        # show the group name
         print boxify($groups{$gm});
+
+        # if there aren't any posts, skip to the next group
+        next unless $posts{$gm};
+
         foreach my $post (sort {$a<=>$b} @{$posts{$gm}}) {
             print "http://$opts{server}/users/$opts{journal}/$post.html\n";
         }
