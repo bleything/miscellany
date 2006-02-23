@@ -14,33 +14,92 @@ use GDBM_File;
 use Term::ReadKey;
 use Digest::MD5 qw(md5_hex);
 use XMLRPC::Lite;
+use Getopt::Long; Getopt::Long::Configure( 'bundling' );
 
 # OPTIONS
-my $server = "www.livejournal.com";
-my $ignore_fo = 1; # 0 to include friends only, 1 to skip
+my %opts = (
+    server      => 'www.livejournal.com',
+    friendsonly => 0,
+);
 
-# SANITY
-die("Usage: $0 <journal name>\n") unless defined $ARGV[0];
-my $journal = $ARGV[0];
+GetOptions( \%opts,
+    'server|s=s',
+    'journal|j=s',
+    'password|p=s',
+    'friendsonly|f!',
+    'help|h',
+#    'html',        # not yet implemented
+#    'outfile|o=s', # not yet implemented
+#    'simple=s',    # not yet implemented
+);
+
+if ($opts{help}) {
+    die <<EOH
+ljgroupanalyze.pl
+Copyright (c) 2005-2006 Ben Bleything <ben\@bleything.net>
+
+OVERVIEW
+  Examines a journal backup created with jbackup.pl and displays
+  URLs for posts grouped by the friends group they are filtered to.
+
+NOTE
+  The jbackup-created journal dump must be located in the current
+  directory.
+
+OPTIONS
+  -s, --server <some server>    Specify a server.  Defaults to
+                                www.livejournal.com
+
+  -j, --journal <journal name>  Specify journal name.  If you do not
+                                use this flag, you will be prompted
+                                for your journal name.
+
+  -p, --password <password>     Specify journal password.  If you do not
+                                use this flag, you will be prompted
+                                for your password.
+
+  -f, --friendsonly             Use this option if you would like to
+                                display Friends Only posts as well as
+                                filtered posts.
+
+  -h, --help                    Display this message.
+
+EXAMPLES
+  ./ljgroupanalyze.pl -j test -p testuser -f
+  ./ljgroupanalyze.pl -fj test
+  ./ljgroupanalyze.pl -s www.deadjournal.com
+EOH
+}
+
+# Get the journal name if we don't already have it
+unless( $opts{journal} ) {
+    $opts{journal} = get_journal();
+}
+die("You must specify a journal name\n") unless $opts{journal};
+
+# Get the password if we don't already have it
+unless( $opts{password} ) {
+    $opts{password} = get_pass();
+}
 
 # Open up the jbackup dump... or don't.
-tie my %db, 'GDBM_File', "$journal.jbak", &GDBM_READER, 0600 or die "Could not open/tie $journal.jbak: $!\nIs the file located in this directory?\n";
+tie my %db, 'GDBM_File', "$opts{journal}.jbak", &GDBM_READER, 0600 or die "Could not open/tie $opts{journal}.jbak: $!\nIs the file located in this directory?\n";
 
 # Create the xmlrpc object
 my $xmlrpc = new XMLRPC::Lite;
-$xmlrpc->proxy("http://$server/interface/xmlrpc");
+$xmlrpc->proxy("http://$opts{server}/interface/xmlrpc");
 
-# Get the password
-my $pwd = get_pass();
-my %groups = get_groups($journal, $pwd);
+# fetch the group names
+my %groups = get_groups($opts{journal}, $opts{password});
 
 my %posts;
 # GO TO TOWN
 foreach my $jitemid (split /,/, $db{'event:ids'}) {
     next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
-    next if ($ignore_fo == 1 && $db{"event:allowmask:$jitemid"} == 1);
+    next if ($opts{friendsonly} == 0 && $db{"event:allowmask:$jitemid"} == 1);
 
-    my $postid = $jitemid * 256 + $db{"event:anum:$jitemid"};
+    my $postid = $jitemid * 256 + ($db{"event:anum:$jitemid"} ? $db{"event:anum:$jitemid"} : 0);
+
     my $mask = $db{"event:allowmask:$jitemid"};
 
     foreach my $gm (keys %groups) {
@@ -51,7 +110,7 @@ foreach my $jitemid (split /,/, $db{'event:ids'}) {
 foreach my $group (sort keys %posts) {
     print boxify($group);
     foreach my $post (sort {$a<=>$b} @{$posts{$group}}) {
-        print "http://$server/users/$journal/$post.html\n";
+        print "http://$opts{server}/users/$opts{journal}/$post.html\n";
     }
 }
 
@@ -65,6 +124,14 @@ print "Enter your password: ";
     my $in = ReadLine(0);
     ReadMode('normal');
     print "\n";
+    chomp $in;
+    return $in;
+}
+
+# Prompts for journal name, cleans it up once received
+sub get_journal {
+print "Enter your journal name: ";
+    my $in = ReadLine(0);
     chomp $in;
     return $in;
 }
