@@ -100,9 +100,11 @@ tie my %db, 'GDBM_File', "$opts{journal}.jbak", &GDBM_READER, 0600 or die "Could
 if( $opts{simple} ) {
     foreach my $jitemid (split /,/, $db{'event:ids'}) {
         next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
-        next if ($opts{friendsonly} == 0 && $db{"event:allowmask:$jitemid"} == 1);
 
-        my $group = defined $db{"event:allowmask:$jitemid"} ? $db{"event:allowmask:$jitemid"} : "GROUP DELETED";
+        my $mask = ( defined $db{"event:allowmask:$jitemid"} ? $db{"event:allowmask:$jitemid"} : -1 );
+        next if ($opts{friendsonly} == 0 && $mask == 1);
+
+        my $group = ($mask == -1 ? "GROUP DELETED" : $mask);
         my $postid = $jitemid * 256 + ($db{"event:anum:$jitemid"} ? $db{"event:anum:$jitemid"} : 0);
         print "$group -- http://$opts{server}/users/$opts{journal}/$postid.html\n";
     }
@@ -111,13 +113,16 @@ if( $opts{simple} ) {
     my %groups = get_groups();
 
     my %posts;
+    my @groupless_posts;
     foreach my $jitemid (split /,/, $db{'event:ids'}) {
         next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
-        next if ($opts{friendsonly} == 0 && $db{"event:allowmask:$jitemid"} == 1);
 
+        my $mask = ( defined $db{"event:allowmask:$jitemid"} ? $db{"event:allowmask:$jitemid"} : 0 );
         my $postid = $jitemid * 256 + ($db{"event:anum:$jitemid"} ? $db{"event:anum:$jitemid"} : 0);
 
-        my $mask = $db{"event:allowmask:$jitemid"};
+        push @groupless_posts, $postid if ($mask == 0);
+
+        next if ($opts{friendsonly} == 0 && $mask == 1);
 
         foreach my $gm (keys %groups) {
             push @{$posts{$gm}}, $postid if (int($gm) & int($mask));
@@ -146,6 +151,13 @@ if( $opts{simple} ) {
         foreach my $post (sort {$a<=>$b} @{$posts{$gm}}) {
             print "http://$opts{server}/users/$opts{journal}/$post.html\n";
         }
+
+    }
+
+    print boxify('GROUP DELETED');
+
+    foreach my $post (sort {$a<=>$b} @groupless_posts) {
+        print "http://$opts{server}/users/$opts{journal}/$post.html\n";
     }
 }
 
