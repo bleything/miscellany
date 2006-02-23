@@ -77,11 +77,6 @@ unless( $opts{journal} ) {
 }
 die("You must specify a journal name\n") unless $opts{journal};
 
-# Get the password if we don't already have it
-unless( $opts{password} ) {
-    $opts{password} = get_pass();
-}
-
 # Open up the jbackup dump... or don't.
 tie my %db, 'GDBM_File', "$opts{journal}.jbak", &GDBM_READER, 0600 or die "Could not open/tie $opts{journal}.jbak: $!\nIs the file located in this directory?\n";
 
@@ -90,7 +85,7 @@ my $xmlrpc = new XMLRPC::Lite;
 $xmlrpc->proxy("http://$opts{server}/interface/xmlrpc");
 
 # fetch the group names
-my %groups = get_groups($opts{journal}, $opts{password});
+my %groups = get_groups();
 
 my %posts;
 # GO TO TOWN
@@ -103,13 +98,13 @@ foreach my $jitemid (split /,/, $db{'event:ids'}) {
     my $mask = $db{"event:allowmask:$jitemid"};
 
     foreach my $gm (keys %groups) {
-        push @{$posts{$groups{$gm}}}, $postid if (int($gm) & int($mask));
+        push @{$posts{$gm}}, $postid if (int($gm) & int($mask));
     }
 }
 
-foreach my $group (sort keys %posts) {
-    print boxify($group);
-    foreach my $post (sort {$a<=>$b} @{$posts{$group}}) {
+foreach my $gm (sort {$groups{$a} cmp $groups{$b}} keys %posts) {
+    print boxify($groups{$gm});
+    foreach my $post (sort {$a<=>$b} @{$posts{$gm}}) {
         print "http://$opts{server}/users/$opts{journal}/$post.html\n";
     }
 }
@@ -160,11 +155,11 @@ sub do_chal_resp {
 
 # Fetch the user's groups and format them nicely.
 sub get_groups {
-    my ($user, $pwd) = @_;
-    my ($chal, $resp) = do_chal_resp($pwd);
+    $opts{password} = get_pass() unless $opts{password};
+    my ($chal, $resp) = do_chal_resp($opts{password});
 
     my $ret = xmlrpc_call('LJ.XMLRPC.getfriendgroups', {
-            username       => $user,
+            username       => $opts{journal},
             auth_method    => "challenge",
             auth_challenge => $chal,
             auth_response  => $resp,
