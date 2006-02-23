@@ -27,10 +27,10 @@ GetOptions( \%opts,
     'journal|j=s',
     'password|p=s',
     'friendsonly|f!',
-    'help|h',
+    'help|h|?',
+    'simple',
 #    'html',        # not yet implemented
 #    'outfile|o=s', # not yet implemented
-#    'simple=s',    # not yet implemented
 );
 
 if ($opts{help}) {
@@ -58,6 +58,10 @@ OPTIONS
                                 use this flag, you will be prompted
                                 for your password.
 
+  --simple                      Simple mode.  You don't need to enter
+                                your password, but you won't get the
+                                names of your groups.
+
   -f, --friendsonly             Use this option if you would like to
                                 display Friends Only posts as well as
                                 filtered posts.
@@ -71,41 +75,57 @@ EXAMPLES
 EOH
 }
 
+# sanity checks
+if( $opts{simple} && $opts{password} ) {
+    die("You may not enter a password while using simple mode.\n");
+}
+
 # Get the journal name if we don't already have it
 unless( $opts{journal} ) {
     $opts{journal} = get_journal();
 }
 die("You must specify a journal name\n") unless $opts{journal};
 
-# Open up the jbackup dump... or don't.
-tie my %db, 'GDBM_File', "$opts{journal}.jbak", &GDBM_READER, 0600 or die "Could not open/tie $opts{journal}.jbak: $!\nIs the file located in this directory?\n";
-
 # Create the xmlrpc object
 my $xmlrpc = new XMLRPC::Lite;
 $xmlrpc->proxy("http://$opts{server}/interface/xmlrpc");
 
-# fetch the group names
-my %groups = get_groups();
+# Open up the jbackup dump... or don't.
+tie my %db, 'GDBM_File', "$opts{journal}.jbak", &GDBM_READER, 0600 or die "Could not open/tie $opts{journal}.jbak: $!\nIs the file located in this directory?\n";
 
-my %posts;
-# GO TO TOWN
-foreach my $jitemid (split /,/, $db{'event:ids'}) {
-    next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
-    next if ($opts{friendsonly} == 0 && $db{"event:allowmask:$jitemid"} == 1);
+if( $opts{simple} ) {
+    foreach my $jitemid (split /,/, $db{'event:ids'}) {
+        next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
+        next if ($opts{friendsonly} == 0 && $db{"event:allowmask:$jitemid"} == 1);
 
-    my $postid = $jitemid * 256 + ($db{"event:anum:$jitemid"} ? $db{"event:anum:$jitemid"} : 0);
-
-    my $mask = $db{"event:allowmask:$jitemid"};
-
-    foreach my $gm (keys %groups) {
-        push @{$posts{$gm}}, $postid if (int($gm) & int($mask));
+        my $group = defined $db{"event:allowmask:$jitemid"} ? $db{"event:allowmask:$jitemid"} : "GROUP DELETED";
+        my $postid = $jitemid * 256 + ($db{"event:anum:$jitemid"} ? $db{"event:anum:$jitemid"} : 0);
+        print "$group -- http://$opts{server}/users/$opts{journal}/$postid.html\n";
     }
-}
+} else {
+    # fetch the group names
+    my %groups = get_groups();
 
-foreach my $gm (sort {$groups{$a} cmp $groups{$b}} keys %posts) {
-    print boxify($groups{$gm});
-    foreach my $post (sort {$a<=>$b} @{$posts{$gm}}) {
-        print "http://$opts{server}/users/$opts{journal}/$post.html\n";
+    my %posts;
+    foreach my $jitemid (split /,/, $db{'event:ids'}) {
+        next unless (defined $db{"event:security:$jitemid"} && $db{"event:security:$jitemid"} eq "usemask");
+        next if ($opts{friendsonly} == 0 && $db{"event:allowmask:$jitemid"} == 1);
+
+        my $postid = $jitemid * 256 + ($db{"event:anum:$jitemid"} ? $db{"event:anum:$jitemid"} : 0);
+
+        my $mask = $db{"event:allowmask:$jitemid"};
+
+        foreach my $gm (keys %groups) {
+            push @{$posts{$gm}}, $postid if (int($gm) & int($mask));
+        }
+    }
+
+    # output!
+    foreach my $gm (sort {$groups{$a} cmp $groups{$b}} keys %posts) {
+        print boxify($groups{$gm});
+        foreach my $post (sort {$a<=>$b} @{$posts{$gm}}) {
+            print "http://$opts{server}/users/$opts{journal}/$post.html\n";
+        }
     }
 }
 
@@ -125,7 +145,7 @@ print "Enter your password: ";
 
 # Prompts for journal name, cleans it up once received
 sub get_journal {
-print "Enter your journal name: ";
+    print "Enter your journal name: ";
     my $in = ReadLine(0);
     chomp $in;
     return $in;
