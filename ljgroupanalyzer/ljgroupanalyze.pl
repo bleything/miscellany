@@ -154,10 +154,12 @@ if( $opts{simple} ) {
 
     }
 
-    print boxify('GROUP DELETED');
+    if (@groupless_posts) {
+        print boxify('GROUP DELETED');
 
-    foreach my $post (sort {$a<=>$b} @groupless_posts) {
-        print "http://$opts{server}/users/$opts{journal}/$post.html\n";
+        foreach my $post (sort {$a<=>$b} @groupless_posts) {
+            print "http://$opts{server}/users/$opts{journal}/$post.html\n";
+        }
     }
 }
 
