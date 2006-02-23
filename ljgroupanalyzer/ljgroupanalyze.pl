@@ -24,7 +24,7 @@ my %opts = (
 
 GetOptions( \%opts,
     'server|s=s',
-    'journal|j=s',
+    'journal|j|user|u=s',
     'password|p=s',
     'friendsonly|f!',
     'help|h|?',
