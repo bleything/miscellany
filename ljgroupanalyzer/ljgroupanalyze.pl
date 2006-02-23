@@ -65,8 +65,8 @@ OPTIONS
   -h, --help                    Display this message.
 
 EXAMPLES
-  ./ljgroupanalyze.pl -j test -p testuser -f
-  ./ljgroupanalyze.pl -fj test
+  ./ljgroupanalyze.pl -j exampleusername -p somepass -f
+  ./ljgroupanalyze.pl -fj exampleusername
   ./ljgroupanalyze.pl -s www.deadjournal.com
 EOH
 }
