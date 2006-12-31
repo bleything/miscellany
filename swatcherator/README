@@ -1,0 +1,21 @@
++--------------------------------------------------+
+| Swatcherator                                     |
+| Copyright 2007 Ben Bleything <ben@bleything.net> |
+| Provided under the BSD license.                  |
++--------------------------------------------------+
+
+A small Camping app to help pick a set of colors.  Originally designed for
+Timbuk2's customer messenger bags (in ballistic nylon, 2006 color year), but
+can be adapted to just about anything.
+
+To run, install camping:
+
+ # gem install camping --include-dependencies
+ 
+Then run the app:
+
+ $ camping swatcherator.rb
+ 
+Then visit http://localhost:3301 in your browser.  Ta-da!
+
+See the code for more details.
