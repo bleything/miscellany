@@ -1,0 +1,113 @@
+#!/usr/bin/env ruby
+
+### SPUMBLE - tumble your spam
+### Copyright (c) 2007 Ben Bleything <ben@bleything.net>
+### 
+### I get a lot of spam where the subjects are lines from technical
+### documenation, RFCs, blog posts, and the like.  I thought it would
+### be fun to track where those subjects were coming from... so I give
+### you spumble.
+###
+### The idea is that you pipe an email to spumble (really, it just looks
+### for /^Subject: (.*)$/, so anything'll work).  spumble will take that
+### subject line, do a Google I'm Feeling Lucky on it (in quotes, so it'll
+### only match the whole phrase), and if it gets a hit, post that to your
+### tumblr.com tumblelog.  Sound groovy?  I think so.
+###
+### To set up spumble, you'll need to define a couple of things:
+
+TumblrDomain = 'spumble'         # <whatever>.tumblr.com
+TumblrPasswd = 'ilikespam'       # put your password here
+TumblrEmail  = 'you@example.com' # put your email here or the request
+                                  # will fail
+
+### and that's it!  To test it, try this:
+###
+### $ echo 'Subject: bleything.blog(:stuff)' | spumble
+###
+### and go check your tumblr site.  You should see a link to my blog.  If
+### not, toss me some email!
+###
+### Enjoy :)
+
+#####################################################################
+### code begins here.  You probably don't need to change anything ###
+### below here, but feel free if it tickles your fancy.           ###
+#####################################################################
+
+require 'net/http'
+require 'uri'
+
+VERSION = "0.0.1"
+
+Debug = true
+
+def report( str )
+	puts " * #{str}" if Debug
+end
+
+
+# find the first subject in the message.  This more or less
+# guarantees that the one we find is the one in the headers
+def find_subject( input = $stdin )
+	input.find {|line| line =~ /^Subject: (.*)/ }
+	subject = $1
+	report "Found subject \"#{subject}\""
+	
+	return subject
+end
+
+
+# hit up google for some I'm Feeling Lucky action
+def feel_lucky( query = "i like bees" )
+	query  = URI.escape( query, /[^a-z0-9]/i )
+	google = "http://www.google.com/search?btnI=I%27m+Feeling+Lucky&q=#{query}"
+	url    = URI.parse( google )
+
+	res = Net::HTTP.start( url.host ) do |http|
+		report "Fetching #{url}"
+		http.get "#{url.path}?#{url.query}"
+	end
+
+	if res.code.to_i == 302
+		result = res.header['Location']
+		report "Got a #{res.code} redirecting to #{result}"
+	else
+		puts "We didn't get a 302, something went wrong.  Response code: #{res.code}"
+		exit
+	end
+	
+	return result
+end
+
+
+# post to tumblr
+def tumble( title, url, description = '' )
+	# http://tumblr.com/api
+	endpoint = "http://#{TumblrDomain}.tumblr.com/api/write"
+	endpoint = URI.parse( endpoint )
+	report "Using #{endpoint} as an API endpoint"
+	
+	query = {
+		# tumblr credentials
+		:email    => TumblrEmail,
+		:password => TumblrPasswd,
+		
+		# miscellaney
+		:type      => 'link',
+		:generator => "spumble/#{VERSION}",
+		
+		# post content
+		:name        => title,
+		:url         => url,
+		:description => description
+	}
+	
+	res = Net::HTTP.post_form( endpoint, query )
+	return res
+	
+end
+
+subject = find_subject
+url = feel_lucky( subject )
+report tumble( subject, url ).inspect
