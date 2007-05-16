@@ -11,6 +11,6 @@ dotd = fetch(dotd_img.parent[:href])
 puts [
   dotd.at("//div.buying//b.sans").inner_text.strip,
   dotd.search("//b.price").last.inner_text.strip,
-  dotd.search("//div[@class=buying]")[3].inner_text.gsub(/(\&nbsp;|\s|Platform:)/, ''),
+  dotd.search("//div[@class=buying]")[3].inner_text.gsub(/(\&nbsp;|Platform:)/, '').strip,
   WWW::ShortURL.shorten("http://www.amazon.com#{dotd_img.parent[:href]}")
 ].join( " -- " )
