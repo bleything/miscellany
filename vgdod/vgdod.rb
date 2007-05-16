@@ -8,8 +8,9 @@ dotd_img = fetch(vg_url).search("img").select {|e| e[:src] =~ /deal-of-the-day/}
 dotd = fetch(dotd_img.parent[:href])
 
 # title -- platform -- price -- url
-printf "%s -- %s -- %s -- %s",
-	dotd.at("//div.buying//b.sans").inner_text.strip,
-	dotd.search("//b.price").last.inner_text.strip,
-	dotd.search("//div[@class=buying]")[3].inner_text.gsub(/(\&nbsp;|\s|Platform:)/, ''),
-	WWW::ShortURL.shorten("http://www.amazon.com#{dotd_img.parent[:href]}")
+puts [
+  dotd.at("//div.buying//b.sans").inner_text.strip,
+  dotd.search("//b.price").last.inner_text.strip,
+  dotd.search("//div[@class=buying]")[3].inner_text.gsub(/(\&nbsp;|\s|Platform:)/, ''),
+  WWW::ShortURL.shorten("http://www.amazon.com#{dotd_img.parent[:href]}")
+].join( " -- " )
