@@ -1,0 +1,11 @@
++--------------------------------------------------+
+| Greasemonkey Userscripts                         |
+| Copyright 2007 Ben Bleything <ben@bleything.net> |
+| Provided under the BSD license.                  |
++--------------------------------------------------+
+
+A small collection of greasemonkey userscripts.  For more information,
+visit http://greasespot.net/.
+
+ * twitteravatarnamedisplay.user.js -- shows name next to the small
+   avatars on Twitter pages
