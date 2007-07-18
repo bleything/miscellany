@@ -1,7 +1,13 @@
+// TWoP recapper cleaner upper....er v0.1
+//
+// Copyright (c) 2007 Ben Bleything <ben@bleything.net>
+// Distributed under the BSD license
+//
 // ==UserScript==
 // @name           TWoP recapper cleaner upper....er
 // @namespace      http://bleything.net
-// @description    Removes a bunch of random crap from twop recaps
+// @description    removes the side and top/bottom bars from Television Without Pity pages and resizes the content width to 100%, thus allowing you to read most recap pages without scrolling.  Huzzah!
+// @version        0.1
 // @include        http://televisionwithoutpity.com/*
 // @include        http://*.televisionwithoutpity.com/*
 // ==/UserScript==

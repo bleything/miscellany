@@ -6,7 +6,8 @@
 // ==UserScript==
 // @name           Twitter Avatar Name Display
 // @namespace      http://bleything.net
-// @description    Displays the alt text of the small avatars on a twitter page
+// @description    shows name next to the small avatars on Twitter pages.
+// @version        0.1
 // @include        http://twitter.com/*
 // @include        http://*.twitter.com/*
 // ==/UserScript==

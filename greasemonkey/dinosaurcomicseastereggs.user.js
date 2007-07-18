@@ -1,8 +1,13 @@
+// Dinosaur Comics Easter Eggs NG v0.1
+//
+// Copyright (c) 2007 Ben Bleything <ben@bleything.net>
+// Distributed under the BSD license
+//
 // ==UserScript==
-// @name          Dinosaur Comics' Easter Eggs
-// @namespace     oliver.dyas@gmail.com 2006-11-1
-// @description   Shows the alt text / comments subject / RSS title beneath each comic at qwantz.com
-// @version       0.8
+// @name          Dinosaur Comics Easter Eggs NG
+// @namespace     http://bleything.net
+// @description   shows the three Dinosaur Comics easter eggs (comic title, RSS title, and comments subject) beneath the comic.  Works for archive pages too!
+// @version       0.1
 // @include       http://www.qwantz.com/
 // @include       http://www.qwantz.com/index.pl?comic=*
 // @include       http://qwantz.com/
