@@ -10,8 +10,10 @@
 // @version       0.1
 // @include       http://www.qwantz.com/
 // @include       http://www.qwantz.com/index.pl?comic=*
+// @include       http://www.qwantz.com/archive/*
 // @include       http://qwantz.com/
 // @include       http://qwantz.com/index.pl?comic=*
+// @include       http://qwantz.com/archive/*
 // ==/UserScript==
 
 // // helper from http://wiki.greasespot.net/Code_snippets#XPath_helper
