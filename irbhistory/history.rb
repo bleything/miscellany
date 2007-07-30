@@ -1,3 +1,22 @@
+# Adds shell-style history display and replay to irb.  The magic happens in
+# the h, h!, and hw methods.
+#
+# == Authors
+#
+# * Ben Bleything <ben@bleything.net>
+#
+# == Copyright
+#
+# Copyright (c) 2007 Ben Bleything
+#
+# This code released under the terms of the BSD license.
+#
+# == Version
+#
+#  $Id$
+#
+
+
 # Lists the last how_many lines of history (defaults to 50).  Aliased to h.
 def history( how_many = 50 )
     history_size = Readline::HISTORY.size
