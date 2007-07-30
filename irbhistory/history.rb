@@ -23,7 +23,6 @@ alias :h  :history
 # -2 because -1 is ourself
 def history_do(lines = (Readline::HISTORY.size - 2))
     irb_eval(lines)
-    nil
 end 
 alias :h! :history_do
 
