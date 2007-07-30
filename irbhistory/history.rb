@@ -1,4 +1,5 @@
-def history(how_many = 50)
+# Lists the last how_many lines of history (defaults to 50).  Aliased to h.
+def history( how_many = 50 )
     history_size = Readline::HISTORY.size
 
     # no lines, get out of here
@@ -15,56 +16,77 @@ def history(how_many = 50)
         start_index = end_index - how_many 
     end
 
-    start_index.upto(end_index) {|i| print_line i}
+    start_index.upto( end_index ) {|i| print_line i}
     nil
 end
 alias :h  :history
 
-# -2 because -1 is ourself
-def history_do(lines = (Readline::HISTORY.size - 2))
-    irb_eval(lines)
-end 
+
+# replay lines from history.  Aliased to h!
+#
+# h! by itself will replay the most recent line.  You can also pass in a
+# range, array, or any mixture of the three.
+#
+# We subtract 2 from HISTORY.size because -1 is the command we just issued.
+def history_do( *lines )
+    lines = [Readline::HISTORY.size - 2] if lines.empty?
+
+    to_eval = get_lines( lines )
+
+    to_eval.each {|l| Readline::HISTORY << l}
+
+    IRB.CurrentContext.workspace.evaluate self, to_eval.join(';')
+end
 alias :h! :history_do
 
-def history_write(filename, lines)
-    file = File.open(filename, 'w')
 
-    get_lines(lines).each do |l|
-        file << "#{l}\n"
+# writes history to a named file.  This is useful if you want to show somebody
+# something you did in irb, or for rapid prototyping.  Aliased to hw.
+#
+# Uses similar calling semantics to h!, that is, you can pass in fixnums,
+# ranges, arrays, or any combination thereof.
+def history_write( filename, *lines )
+    File.open( filename, 'w' ) do |f|
+        get_lines( lines ).each do |l|
+            f.puts l
+        end
     end
-
-    file.close
 end
 alias :hw :history_write
 
+
 private
+
+# simple getter to fetch from Readline
 def get_line(line_number)
     Readline::HISTORY[line_number]
 end
 
-def get_lines(lines = [])
-    return [get_line(lines)] if lines.is_a? Fixnum
 
+# the code what powers the line fetcherating.  Accepts an array and iterates
+# over each entry, fetching that line from the history and placing it into a
+# temporary array which is ultimately returned.
+def get_lines( lines )
     out = []
 
-    lines = lines.to_a if lines.is_a? Range
-
-    lines.each do |l|
-        out << Readline::HISTORY[l]
+    lines.each do |line|
+        case line
+        when Fixnum
+            out << get_line( line )
+        when Range
+            line.to_a.each do |l|
+                out << get_line( l )
+            end
+        end
     end
 
     return out
 end
 
+
+# prints out the contents of the line from history, along with a line number,
+# if desired.
 def print_line(line_number, show_line_numbers = true)
     print "[%04d] " % line_number if show_line_numbers
     puts get_line(line_number)
-end
-
-def irb_eval(lines)
-    to_eval = get_lines(lines)
-
-    IRB.CurrentContext.workspace.evaluate self, to_eval.join(';')
-
-    to_eval.each {|l| Readline::HISTORY << l}
 end
