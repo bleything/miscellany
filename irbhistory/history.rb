@@ -22,7 +22,7 @@ alias :h  :history
 
 # -2 because -1 is ourself
 def history_do(lines = (Readline::HISTORY.size - 2))
-  irb_eval lines
+  irb_eval(lines)
   nil
 end 
 alias :h! :history_do
@@ -64,8 +64,8 @@ end
 
 def irb_eval(lines)
   to_eval = get_lines(lines)
-  
-  eval to_eval.join("\n")
+
+  IRB.CurrentContext.workspace.evaluate self, to_eval.join(';')
   
   to_eval.each {|l| Readline::HISTORY << l}
 end
