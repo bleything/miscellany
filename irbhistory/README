@@ -1,0 +1,23 @@
++--------------------------------------------------+
+| Shell-style History for irb                      |
+| Copyright 2007 Ben Bleything <ben@bleything.net> |
+| Provided under the BSD license.                  |
++--------------------------------------------------+
+
+This file represents code written at RubyConf 2006, in preparation for a
+lightning talk on adding shell-style history commands to irb. Essentially, it
+adds the ability to inspect your history and re-execute lines from the
+history.
+
+In order for this to work properly, you’ll need to have one of the various irb
+history hacks running. An easy option is wirble, or you can go the traditional
+route and use Michael Granger’s hack from the RubyGarden wiki.
+
+Both of those, in one way or another, try to remove duplicate entries from
+your history. Last I checked, Wirble does it wrong (doesn’t reverse the list
+before running uniq so you keep the first instead of the latest), but
+Michael’s version does it right. That said, I disabled the uniq entirely
+because I don’t want it. IRB history will work better without it.
+
+To use, either copy this code into your .irbrc or place it somewhere and
+require it.
