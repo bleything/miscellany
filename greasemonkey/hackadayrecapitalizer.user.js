@@ -8,10 +8,8 @@
 // @namespace     http://bleything.net
 // @description   Fixes the idiotic lower-casing that Hack a Day inflicts on its readers.
 // @version       0.1
-// @include       http://hackaday.com/
-// @include       http://www.hackaday.com/
-// @include       http://hackaday.com/
-// @include       http://www.hackaday.com/
+// @include       http://hackaday.com/*
+// @include       http://www.hackaday.com/*
 // ==/UserScript==
 
 // // helper from http://wiki.greasespot.net/Code_snippets#XPath_helper
