@@ -46,7 +46,14 @@ print "Extracting details from %i messages" %
 
 count = 0
 @mail_details.filter( :extracted => false ).each do |msg|
-	mail = TMail::Mail.load( msg[:path] )
+	begin
+		mail = TMail::Mail.load( msg[:path] )
+	rescue TMail::SyntaxError
+		# Couldn't parse the message... that either means that it wasn't an
+		# email (header cache or courier metadata, for instance) or that it
+		# is malformed.
+		next
+	end
 	
 	to = mail.to.select {|addr| addr =~ /bleything.net/ }.join( "," ) rescue ""
 	cc = mail.cc.select {|addr| addr =~ /bleything.net/ }.join( "," ) rescue ""
