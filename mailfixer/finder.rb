@@ -98,9 +98,9 @@ new_files.each do |path|
 	count += 1
 	
 	if count % 10 == 0
-		puts count
+		print count
 	else
-		puts '.'
+		print '.'
 	end
 end
 
@@ -121,9 +121,9 @@ missing_files.each do |path|
 	count += 1
 
 	if count % 10 == 0
-		puts count
+		print count
 	else
-		puts '.'
+		print '.'
 	end
 end
 
