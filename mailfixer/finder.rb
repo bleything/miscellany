@@ -44,8 +44,8 @@ DB.create_table :mail_details do
 	text :deliveredto,   :index => true
 	text :xapparentlyto, :index => true
 	
-	boolean :detailed, :index => true
-	boolean :analyzed, :index => true
+	boolean :detailed, :index => true, :default => false
+	boolean :analyzed, :index => true, :default => false
 end unless DB.table_exists? :mail_details
 
 ##############################################################################
