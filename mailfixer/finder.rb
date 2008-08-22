@@ -90,7 +90,7 @@ log # blank line
 ### I N S E R T   N E W   F I L E S
 ##############################################################################
 
-log "Adding new files to the database"
+print "Adding new files to the database"
 
 count = 0
 new_files.each do |path|
@@ -113,7 +113,7 @@ log # blank line
 ### P U R G E   O L D   F I L E S
 ##############################################################################
 
-log "Removing old files from the database"
+print "Removing old files from the database"
 
 count = 0
 missing_files.each do |path|

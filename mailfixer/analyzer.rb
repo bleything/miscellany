@@ -41,7 +41,7 @@ end unless DB.table_exists?( :edges )
 
 require 'tmail'
 
-log "Extracting details from %i messages" % 
+print "Extracting details from %i messages" % 
 	[ @mail_details.filter( :extracted => false ).size ]
 
 count = 0
