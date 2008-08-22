@@ -34,7 +34,6 @@ require 'sequel'
 
 # Sequel database object
 DB = Sequel.connect( 'postgres://localhost' )
-@mail_details = DB.from( :mail_details )
 
 DB.create_table :mail_details do
 	varchar :path, :unique => true
@@ -47,6 +46,8 @@ DB.create_table :mail_details do
 	boolean :detailed, :index => true, :default => false
 	boolean :analyzed, :index => true, :default => false
 end unless DB.table_exists? :mail_details
+
+@mail_details = DB.from( :mail_details )
 
 ##############################################################################
 ### F I N D   F I L E S   O N   D I S K
