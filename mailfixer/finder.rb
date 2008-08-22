@@ -4,7 +4,7 @@
 ### U T I L I T Y   F U N C T I O N S
 ##############################################################################
 
-def log( msg = nil )
+def log( msg = "" )
 	$stderr.puts msg
 end
 
