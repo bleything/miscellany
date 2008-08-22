@@ -62,7 +62,7 @@ log # blank line
 
 log "Fetching files from the database..."
 db_files = []
-DB[ 'select path from mail_details' ].each do {|row| db_files << row[:path] }
+DB[ 'select path from mail_details' ].each {|row| db_files << row[:path] }
 log "...done! Found #{db_files.size} files."
 
 log # blank line
