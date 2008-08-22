@@ -8,6 +8,8 @@ def log( msg = "" )
 	$stderr.puts msg
 end
 
+$stdout.sync = true
+
 ##############################################################################
 ### S A N I T Y   C H E C K S
 ##############################################################################
@@ -87,10 +89,42 @@ log # blank line
 ### I N S E R T   N E W   F I L E S
 ##############################################################################
 
-# no-op
+log "Adding new files to the database"
+
+count = 0
+new_files.each do |path|
+	@mail_details.insert( :path => path )
+	
+	count += 1
+	
+	if count % 10 == 0
+		puts count
+	else
+		puts '.'
+	end
+end
+
+log "...done!"
+
+log # blank line
 
 ##############################################################################
 ### P U R G E   O L D   F I L E S
 ##############################################################################
 
-# no-op
+log "Removing old files from the database"
+
+count = 0
+missing_files.each do |path|
+	@mail_details.filter( :path => path ).delete
+	
+	count += 1
+
+	if count % 10 == 0
+		puts count
+	else
+		puts '.'
+	end
+end
+
+log "...done!"
