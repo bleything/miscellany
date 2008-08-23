@@ -21,8 +21,8 @@ require 'sequel'
 DB = Sequel.connect( 'postgres://localhost' )
 
 DB.create_table :addresses do
-	serial :id,       :index => true
-	varchar :address, :index => true
+	serial :id,       :index  => true
+	varchar :address, :unique => true
 end unless DB.table_exists?( :addresses )
 
 DB.create_table :edges do
