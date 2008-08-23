@@ -93,8 +93,6 @@ print "Analyzing #{@mail_details.filter( :analyzed => false ).size} messages"
 
 count = 0
 @mail_details.filter( :analyzed => false ).each do |msg|
-	puts "dealing with #{msg[:path]}"
-
 	[ :toheader, :cc, :deliveredto, :xapparentlyto ].each do |column|
 		next if msg[column].nil? or msg[column].empty?
 
