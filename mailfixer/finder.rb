@@ -118,7 +118,8 @@ print "Removing old files from the database"
 count = 0
 missing_files.each do |path|
 	@mail_details.filter( :path => path ).delete
-	
+	DB.from( :edges ).filter( :path => path ).delete
+
 	count += 1
 
 	if count % 10 == 0
