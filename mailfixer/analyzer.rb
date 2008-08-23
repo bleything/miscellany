@@ -82,3 +82,48 @@ count = 0
 end
 
 log "...done!"
+
+log # blank line
+
+##############################################################################
+### A N A L Y S I S   P H A S E
+##############################################################################
+
+print "Analyzing #{@mail_details.filter( :analyzed => false ).size} messages"
+
+count = 0
+@mail_details.filter( :analyzed => false ).each do |msg|
+	puts "dealing with #{msg[:path]}"
+
+	[ :toheader, :cc, :deliveredto, :xapparentlyto ].each do |column|
+		next if msg[column].nil? or msg[column].empty?
+
+		msg[ column ].split( ',' ).each do |addr|
+			begin
+				@addresses.insert( :address => addr )
+			rescue Sequel::Error => e
+				# re-raise if it's not a duplicate key error
+				raise e unless e.message =~ /duplicate key value violates unique constraint "addresses_address_key"/
+			ensure
+				addr_id = @addresses.filter( :address => addr ).map( :id ).first
+			end
+
+			edge_type = column.to_s
+			edge_type = "to" if column == :toheader
+
+			@edges.insert( :path => msg[:path], :type => edge_type, :address_id => addr_id )
+		end
+	end
+
+	@mail_details.filter( :path => msg[:path] ).update( :analyzed => true )
+
+	count += 1
+
+	if count % 10 == 0
+		print count
+	else
+		print '.'
+	end
+end
+
+log "...done!"
