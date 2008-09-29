@@ -2,31 +2,31 @@
 
 ### SPUMBLE - tumble your spam
 ### Copyright (c) 2007 Ben Bleything <ben@bleything.net>
-### 
+###
 ### I get a lot of spam where the subjects are lines from technical
-### documenation, RFCs, blog posts, and the like.  I thought it would
-### be fun to track where those subjects were coming from... so I give
-### you spumble.
+### documenation, RFCs, blog posts, and the like.  I thought it would be
+### fun to track where those subjects were coming from... so I give you
+### spumble.
 ###
 ### The idea is that you pipe an email to spumble (really, it just looks
-### for /^Subject: (.*)$/, so anything'll work).  spumble will take that
-### subject line, do a Google I'm Feeling Lucky on it (in quotes, so it'll
-### only match the whole phrase), and if it gets a hit, post that to your
-### tumblr.com tumblelog.  Sound groovy?  I think so.
+### for /^Subject: (.*)$/, so anything'll work). spumble will take that
+### subject line, do a Google I'm Feeling Lucky on it (in quotes, so
+### it'll only match the whole phrase), and if it gets a hit, post that
+### to your tumblr.com tumblelog.  Sound groovy?  I think so.
 ###
 ### To set up spumble, you'll need to define a couple of things:
 
-TumblrDomain = 'spumble'         # <whatever>.tumblr.com
-TumblrPasswd = 'ilikespam'       # put your password here
+TumblrDomain = 'spumble'           # <whatever>.tumblr.com
+TumblrPasswd = 'ilikespam'         # put your password here
 TumblrEmail  = 'ben@bleything.net' # put your email here or the request
-                                  # will fail
+                                   # will fail
 
 ### and that's it!  To test it, try this:
 ###
 ### $ echo 'Subject: bleything.blog(:stuff)' | spumble
 ###
-### and go check your tumblr site.  You should see a link to my blog.  If
-### not, toss me some email!
+### and go check your tumblr site.  You should see a link to my blog.
+### If not, toss me some email!
 ###
 ### Enjoy :)
 
