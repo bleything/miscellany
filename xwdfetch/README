@@ -1,12 +1,12 @@
-+--------------------------------------------------+
-| xwdfetch.pl                                      |
-| Copyright 2006 Ben Bleything <ben@bleything.net> |
-| Provided under the BSD license.                  |
-+--------------------------------------------------+
+========================================================================
+xwdfetch.pl
+Copyright 2006-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
 
-I'm a crossword fanatic.  I recently got a sweet Palm Treo 650 and
+I'm a crossword fanatic.  A while ago, I got a sweet Palm Treo 650 and
 promptly installed some crossword software on it.  One of the coolest
-features is the ability to download puzzles from the internet.  I set
+features was the ability to download puzzles from the internet.  I set
 that up, but I noticed I was getting some puzzles over and over.
 
 I had been getting my URLs from this mac app called PuzzleGetter

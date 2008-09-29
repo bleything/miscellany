@@ -1,8 +1,8 @@
-+--------------------------------------------------+
-| imaptoys                                         |
-| Copyright 2006 Ben Bleything <ben@bleything.net> |
-| Provided under the BSD license.                  |
-+--------------------------------------------------+
+========================================================================
+imaptoys
+Copyright 2005-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
 
 This set of toys is meant for various manipulations of IMAP
 folders.  In part inspired by Eric Hodel's imapcleanse

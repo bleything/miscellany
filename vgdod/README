@@ -1,10 +1,11 @@
-+--------------------------------------------------+
-| vgdod.rb                                         |
-| Copyright 2007 Ben Bleything <ben@bleything.net> |
-| Provided under the BSD license.                  |
-+--------------------------------------------------+
+========================================================================
+vgdod.rb
+Copyright 2007-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
 
-A little hrpicot toy that scrapes Amazon.com's Video Games Deal of the Day.
+A little hrpicot toy that scrapes Amazon.com's Video Games Deal of the
+Day.
 
 To run, install hpricot and shorturl, then run it:
 

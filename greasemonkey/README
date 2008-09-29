@@ -1,8 +1,8 @@
-+--------------------------------------------------+
-| Greasemonkey Userscripts                         |
-| Copyright 2007 Ben Bleything <ben@bleything.net> |
-| Provided under the BSD license.                  |
-+--------------------------------------------------+
+========================================================================
+Greasemonkey Userscripts
+Copyright 2007-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
 
 A small collection of greasemonkey userscripts.  For more information,
 visit http://greasespot.net/.
@@ -14,6 +14,7 @@ visit http://greasespot.net/.
    easter eggs (comic title, RSS title, and comments subject) beneath
    the comic.  Works for archive pages too!
 
- * twoprecappercleanerupper.user.js -- removes the side and top/bottom bars
-   from Television Without Pity pages and resizes the content width to 100%,
-   thus allowing you to read most recap pages without scrolling.  Huzzah!
+ * twoprecappercleanerupper.user.js -- removes the side and top/bottom
+   bars from Television Without Pity pages and resizes the content width
+   to 100%, allowing you to read most recap pages without scrolling.
+   Huzzah!

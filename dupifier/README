@@ -1,8 +1,8 @@
-+--------------------------------------------------+
-| dupifier.pl                                      |
-| Copyright 2005 Ben Bleything <ben@bleything.net> |
-| Provided under the BSD license.                  |
-+--------------------------------------------------+
+========================================================================
+dupifier.pl
+Copyright 2005-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
 
 This little gizmo was meant to analyze the contents of my Maildir
 and notify me of duplicate messages. It accomplished this via the

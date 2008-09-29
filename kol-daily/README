@@ -1,3 +1,9 @@
+========================================================================
+kol-daily.pl
+Copyright 2005-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
+
 This is a little tool used to automate the boring day-to-day tasks that
 a player in Kingdom of Loathing may want to undertake.  Currently, it
 supports the following:

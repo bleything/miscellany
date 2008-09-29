@@ -1,0 +1,17 @@
+========================================================================
+spumble
+Copyright 2007-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
+
+I get a lot of spam where the subjects are lines from technical
+documenation, RFCs, blog posts, and the like.  I thought it would be fun
+to track where those subjects were coming from... so I give you spumble.
+
+The idea is that you pipe an email to spumble (really, it just looks
+for /^Subject: (.*)$/, so anything'll work). spumble will take that
+subject line, do a Google I'm Feeling Lucky on it (in quotes, so it'll
+only match the whole phrase), and if it gets a hit, post that to your
+tumblr.com tumblelog.  Sound groovy?  I think so.
+
+Enjoy :)

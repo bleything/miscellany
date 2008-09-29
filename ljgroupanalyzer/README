@@ -1,3 +1,9 @@
+========================================================================
+ljgroupanalyze.pl
+Copyright 2005-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
+
 This little script can be used to analyze a jbackup-generated dump and
 tell you what posts have used what friends groups.  By default, listing
 posts marked Friends Only is disabled.  To enable it, edit the script
