@@ -32,6 +32,18 @@ DB.create_table :edges do
 	int     :address_id, :index => true
 end unless DB.table_exists?( :edges )
 
+DB.create_table :mail_details do
+	varchar :path, :unique => true
+	
+	text :toheader,      :index => true
+	text :cc,            :index => true
+	text :deliveredto,   :index => true
+	text :xapparentlyto, :index => true
+	
+	boolean :extracted, :index => true, :default => false
+	boolean :analyzed,  :index => true, :default => false
+end unless DB.table_exists? :mail_details
+
 @mail_details = DB.from( :mail_details )
 @addresses    = DB.from( :addresses    )
 @edges        = DB.from( :edges        )

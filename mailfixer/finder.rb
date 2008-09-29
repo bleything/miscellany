@@ -35,6 +35,17 @@ require 'sequel'
 # Sequel database object
 DB = Sequel.connect( 'postgres://localhost' )
 
+DB.create_table :addresses do
+	serial :id,       :index  => true
+	varchar :address, :unique => true
+end unless DB.table_exists?( :addresses )
+
+DB.create_table :edges do
+	varchar :path,       :index => true
+	varchar :type,       :index => true
+	int     :address_id, :index => true
+end unless DB.table_exists?( :edges )
+
 DB.create_table :mail_details do
 	varchar :path, :unique => true
 	
