@@ -18,7 +18,7 @@
 
 TumblrDomain = 'spumble'         # <whatever>.tumblr.com
 TumblrPasswd = 'ilikespam'       # put your password here
-TumblrEmail  = 'you@example.com' # put your email here or the request
+TumblrEmail  = 'ben@bleything.net' # put your email here or the request
                                   # will fail
 
 ### and that's it!  To test it, try this:
@@ -91,7 +91,7 @@ def tumble( title, url, description = '' )
 	query = {
 		# tumblr credentials
 		:email    => TumblrEmail,
-		:password => TumblrPasswd,
+		:password => 'bk99lohs',#TumblrPasswd,
 		
 		# miscellaney
 		:type      => 'link',

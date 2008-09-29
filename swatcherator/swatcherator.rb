@@ -200,8 +200,27 @@ module Swatcherator::Controllers
     def get
       @state[:colors] ||= COLORS
       
+      @state[:colors][:baby_pink][:enabled] = false
+      @state[:colors][:berry][:enabled] = false
+      @state[:colors][:coral][:enabled] = false
+      @state[:colors][:white][:enabled] = false
+      @state[:colors][:purple][:enabled] = false
+      @state[:colors][:baby_blue][:enabled] = false
+      @state[:colors][:red][:enabled] = false
+      @state[:colors][:black][:enabled] = false
+      # @state[:colors][:purple][:enabled] = false
+      
       @swatches = @state[:colors].select {|c,v| v[:enabled]}.sort_by {rand}[0..(NUMBER_OF_SWATCHES - 1)]
       render :index
+    end
+  end
+  
+  class ColorSelector < R '/selector'
+    def get
+      redirect(R Index)
+    end
+    
+    def post
     end
   end
 end
@@ -229,14 +248,14 @@ module Swatcherator::Views
 
           #header {
             font-size: 2em;
-            margin-bottom: 2em;
+            margin-bottom: 1em;
             padding: 0.3em 0 0.15em 0;
           }
 
           #footer {
             padding: 0.5em 0 0.2em 0;
             font-size: 0.8em;
-            margin-top: 2em;
+            margin-top: 1em;
             position: absolute;
             bottom: 0;
           }
@@ -245,21 +264,29 @@ module Swatcherator::Views
             color: #d88722;
           }
           
-          #container {
+          #container, #selector, #swatches, #instructions {
             margin: auto;
+          }
+          
+          #container {
             width: 95%;
           }
           
           #selector {
-            width: 40%;
-            margin: auto;
+            width: 40%
+          }
+          
+          #swatches, #instructions {
+            padding-top: 4em;
           }
           
           #swatches {
-            margin: auto;
             width: 75%;
-            
-            padding-top: 4em;
+          }
+          
+          #instructions {
+            text-align: center;
+            width: 60%;
           }
           
           div.colorbox {
@@ -271,8 +298,19 @@ module Swatcherator::Views
             padding: 10px;
             margin-right: 10px;
             margin-bottom: 10px;
-            
+          }
+          
+          #selector div.light {
+            border: 1px solid black;
+          }
+          
+          #selector div.dark {
             border: 1px solid white;
+          }
+          
+          div.note {
+            text-align: center;
+            font-size: .8em;
           }
           
           #swatches div.colorbox {
@@ -312,6 +350,12 @@ module Swatcherator::Views
   end
   
   def index
+    div.instructions! do
+      h2 "You're ready to start mixing up colors with Swatcherator!"
+      
+      p "To get started, just click the big Go button above.  You can also pick which colors to mix by checking or unchecking them in the boxes above.  You can bookmark any swatch to look at it later."
+    end
+    
     _swatches
   end
   
@@ -319,12 +363,14 @@ module Swatcherator::Views
   
   def _color_selector
     div.selector! do
-      # sort colors in alphabetical order.  Probably a better way.  I'm tired.
+      # sort colors in alphabetical order.  There's probably a better way.  I'm tired.
       @state[:colors].keys.map(&:to_s).sort.map(&:intern).each do |code|
         color = @state[:colors][code]
+        
+        klass = "colorbox #{color[:class]}"
 
-        div.colorbox :style => "background: ##{color[:hexcode]}" do
-          opts = {:type => :checkbox, :name => code}
+        div :style => "background: ##{color[:hexcode]}", :class => klass do
+          opts = {:type => :checkbox, :name => 'colors[]', :value => code}
           opts.merge! :checked => true if color[:enabled]
           
           input opts
@@ -333,6 +379,11 @@ module Swatcherator::Views
     end
 
     div.clear nil # must pass some form of content into the div or nothing happens.
+
+    num_colors   = @state[:colors].size
+    num_enabled  = @state[:colors].select {|k,v| v[:enabled]}.size
+    combinations = factorial(num_enabled) / (factorial(NUMBER_OF_SWATCHES) * factorial(num_enabled - NUMBER_OF_SWATCHES))
+    div.note "#{num_enabled} colors enabled out of #{num_colors}, yielding #{combinations} possible color combinations."
   end
   
   def _swatches
@@ -345,6 +396,11 @@ module Swatcherator::Views
     end
     
     div.clear nil
+  end
+  
+  def factorial(n) 
+    return n if n == 1
+    return n * factorial( n - 1 )
   end
 end
 
