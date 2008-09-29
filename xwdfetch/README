@@ -1,5 +1,5 @@
 ========================================================================
-xwdfetch.pl
+xwdfetch.rb
 Copyright 2006-2008 Ben Bleything <ben@bleything.net>
 Provided under the BSD license.
 ========================================================================
@@ -9,12 +9,12 @@ promptly installed some crossword software on it.  One of the coolest
 features was the ability to download puzzles from the internet.  I set
 that up, but I noticed I was getting some puzzles over and over.
 
-I had been getting my URLs from this mac app called PuzzleGetter
-(http://uregina.ca/~schelled/) which uses some AppleScript magic to
-fetch the correct filenames.  A lot of the sites distribute their
-puzzles with the date in the URL.  Hard to do on a palm.
+I went through some ridiculous perl CGI stuff before I eventually
+realized that it would be much easier to just fetch a ton of files and
+stick 'em on my SD card.  The script in this directory does just that.
 
-My solution?  Write xwdfetch.pl.  The idea is that it sits on a
-webserver as a CGI.  When you request the page with a particular GET
-argument, it fetches whichever crossword you asked for and forks it
-over.  Pretty slick, eh?
+To run it, find a URL that has links to .puz files.  Then run it:
+
+  ./xwdfetch.rb http://www.example.com/crosswords.html
+  
+Easy as pie?
