@@ -81,6 +81,8 @@ log "Analyzing find results..."
 new_files = disk_files - db_files
 log " * found #{new_files.size} new files to be inserted"
 
+log # blank line
+
 ##############################################################################
 ### I N S E R T   N E W   F I L E S
 ##############################################################################
