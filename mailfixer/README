@@ -4,16 +4,16 @@ Copyright 2008 Ben Bleything <ben@bleything.net>
 Provided under the BSD license.
 ========================================================================
 
-mailfixer is meant to analyze the contents of a Maildir to give you some 
-idea of exactly what the hell all those thousands of messages are.  I 
-originally wrote it because I'd been running with a catchall address for 
+mailfixer is meant to analyze the contents of a Maildir to give you some
+idea of exactly what the hell all those thousands of messages are.  I
+originally wrote it because I'd been running with a catchall address for
 9 years and it was time to delete all that mail.
 
 It's pretty easy to use... first, run finder:
 
   ./finder.rb /path/to/your/maildir
 
-That'll look at your disk, find a bunch of messages, and stick them in 
+That'll look at your disk, find a bunch of messages, and stick them in
 your database.  It'll also remove messages that you've since deleted.
 
 Next, run the analyzer:
@@ -30,8 +30,8 @@ This does a couple of things:
     table.  This lets you (for instance) determine that an address is
     junk and delete ever piece of mail sent to that address.
 
-IMPORTANT NOTE!  There are places in the code that are specific to my 
-email addresses... you'll probably want to search through for 
-'bleything.net' and replace it with something that makes sense for you.  
-You probably want to read over the rest of the code too... there's not 
+IMPORTANT NOTE!  There are places in the code that are specific to
+my email addresses... you'll probably want to search through for
+'bleything.net' and replace it with something that makes sense for you.
+You probably want to read over the rest of the code too... there's not
 that much of it.
