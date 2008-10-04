@@ -1,0 +1,12 @@
+========================================================================
+songfetcher.rb
+Copyright 2007-2008 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
+
+Pass it a URL and it will download all of the mp3s linked from that 
+page.  Simple!
+
+./songfetcher.rb http://example.com/music_is_here.html
+
+Requires hpricot.
