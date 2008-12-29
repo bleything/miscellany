@@ -2,16 +2,19 @@
 
 %w(rubygems hpricot open-uri shorturl).each {|g| require g}
 def fetch(url = '') ; return Hpricot(open("http://www.amazon.com" + url)) ; end
+def d(msg = '') ; $stderr.puts msg ; end
 
+d "Fetching amazon.com"
 vg_url = fetch.at("a[text()=Video Games]")[:href]
-puts " * found video games URL: #{vg_url}" if $DEBUG
+d " * found video games URL: #{vg_url}"
 
-dotd_img = fetch(vg_url).search("img").select {|e| e[:src] =~ /deal-of-the-day/}.first
-puts " * found dotd image href: #{dotd_img.parent[:href]}" if $DEBUG
-
-dotd = fetch(dotd_img.parent[:href])
+dotd_img = fetch(vg_url).search("area").select {|e| e[:alt] =~ /Deal of the Day/}.first
+d " * found dotd image href: #{dotd_img[:href]}"
+dotd = fetch(dotd_img[:href])
 
 table = dotd.at( "//table.amabot_widget" )
+
+puts "-" * 80
 
 puts "Title:      " + table.at( "/tr/td[3]/a" ).inner_text.strip
 
