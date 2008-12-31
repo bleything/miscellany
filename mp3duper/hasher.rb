@@ -5,7 +5,7 @@
 ##############################################################################
 
 def log( msg = "" )
-	$stderr.puts msg
+  $stderr.puts msg
 end
 
 $stdout.sync = true
@@ -21,17 +21,17 @@ require 'sequel'
 DB = Sequel.connect( 'postgres://localhost' )
 
 DB.create_table :mp3s do
-	text    :path, :unique => true
-	int     :size
+  text :path, :unique => true
+  int  :size
 
-	# fingerprints
-	varchar :puid, :index => true
-	varchar :sha1, :index => true
-	varchar :md5,  :index => true
+  # fingerprints
+  varchar :puid, :index => true
+  varchar :sha1, :index => true
+  varchar :md5,  :index => true
 
-	# status markers
-	boolean :fingerprinted, :index => true, :default => false
-	boolean :hashed,        :index => true, :default => false
+  # status markers
+  boolean :fingerprinted, :index => true, :default => false
+  boolean :hashed,        :index => true, :default => false
 end unless DB.table_exists?( :mp3s )
 
 @mp3s = DB.from( :mp3s )
@@ -58,25 +58,25 @@ log "Finding hashes and sizes for #{db_files.size} files..."
 count = 0
 
 db_files.each do |path|
-	sha1 = Digest::SHA1.file( path ).hexdigest
-	md5  = Digest::MD5.file(  path ).hexdigest
-	size = File.size( path )
-	
-	@mp3s.filter( :path => path ).update(
-		:sha1   => sha1,
-		:md5    => md5,
-		:size   => size,
-		:hashed => true
-	)
+  sha1 = Digest::SHA1.file( path ).hexdigest
+  md5  = Digest::MD5.file(  path ).hexdigest
+  size = File.size( path )
 
-	# status display
-	count += 1
-	
-	if ( count % 10 ) == 0
-		print count
-	else
-		print "."
-	end
+  @mp3s.filter( :path => path ).update(
+    :sha1   => sha1,
+    :md5    => md5,
+    :size   => size,
+    :hashed => true
+  )
+
+  # status display
+  count += 1
+
+  if ( count % 10 ) == 0
+    print count
+  else
+    print "."
+  end
 end
 
 log "...done!"

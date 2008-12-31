@@ -5,7 +5,7 @@
 ##############################################################################
 
 def log( msg = "" )
-	$stderr.puts msg
+  $stderr.puts msg
 end
 
 $stdout.sync = true
@@ -15,14 +15,14 @@ $stdout.sync = true
 ##############################################################################
 
 unless ARGV[0]
-	log "You must specify a directory to scan:"
-	log "  #{$0} /path/to/music/files"
-	exit
+  log "You must specify a directory to scan:"
+  log "  #{$0} /path/to/music/files"
+  exit
 end
 
 unless File.directory? ARGV[0].gsub( /\\ /, ' ' ) # strip out escaped spaces... sigh
-	log "#{ARGV[0]} is not a directory."
-	exit
+  log "#{ARGV[0]} is not a directory."
+  exit
 end
 
 ##############################################################################
@@ -36,17 +36,17 @@ require 'sequel'
 DB = Sequel.connect( 'postgres://localhost' )
 
 DB.create_table :mp3s do
-	text    :path, :unique => true
-	int     :size
+  text :path, :unique => true
+  int  :size
 
-	# fingerprints
-	varchar :puid, :index => true
-	varchar :sha1, :index => true
-	varchar :md5,  :index => true
+  # fingerprints
+  varchar :puid, :index => true
+  varchar :sha1, :index => true
+  varchar :md5,  :index => true
 
-	# status markers
-	boolean :fingerprinted, :index => true, :default => false
-	boolean :hashed,        :index => true, :default => false
+  # status markers
+  boolean :fingerprinted, :index => true, :default => false
+  boolean :hashed,        :index => true, :default => false
 end unless DB.table_exists?( :mp3s )
 
 @mp3s = DB.from( :mp3s )
@@ -91,15 +91,15 @@ print "Adding new files to the database"
 
 count = 0
 new_files.each do |path|
-	@mp3s.insert( :path => path )
-	
-	count += 1
-	
-	if count % 10 == 0
-		print count
-	else
-		print '.'
-	end
+  @mp3s.insert( :path => path )
+
+  count += 1
+
+  if count % 10 == 0
+    print count
+  else
+    print '.'
+  end
 end
 
 log "...done!"
