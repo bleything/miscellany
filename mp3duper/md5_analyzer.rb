@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby -w
 
+require 'includes/database'
+
 ### Discovers all files whose md5 hashes are the same
-
-require 'rubygems'
-require 'sequel'
-
-DB = Sequel.connect('postgres://localhost')
 
 duplicate_md5s = DB[ 
   "SELECT md5                " +

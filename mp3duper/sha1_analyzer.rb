@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby -w
 
+require 'includes/database'
+
 ### Discovers all files whose sha1 hashes are the same
-
-require 'rubygems'
-require 'sequel'
-
-DB = Sequel.connect('postgres://localhost')
 
 duplicate_sha1s = DB[ 
   "SELECT sha1                " +
