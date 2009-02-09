@@ -1,16 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'includes/config'
 require 'includes/database'
-
-##############################################################################
-### U T I L I T Y   F U N C T I O N S
-##############################################################################
-
-def log( msg = "" )
-  $stderr.puts msg
-end
-
-$stdout.sync = true
+require 'includes/helpers'
 
 ##############################################################################
 ### F I N D   F I L E S   I N   D A T A B A S E
