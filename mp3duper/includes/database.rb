@@ -8,7 +8,7 @@ require 'rubygems'
 require 'sequel'
 
 # Sequel database object
-DB = Sequel.connect( 'postgres://localhost' )
+DB = Sequel.connect( CONFIG['db_uri'] )
 
 DB.create_table :mp3s do
   text :path, :unique => true

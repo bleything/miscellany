@@ -1,0 +1,15 @@
+# Copy this file to config.yml and make the changes described below
+
+# change these to the paths to your music. You can add or remove
+# entries as you like.
+music_paths:
+  - /Users/jpublic/Music/iTunes/iTunes Music
+  - /Volumes/media/mp3s
+
+# change this to a valid Sequel connect string, as described here:
+# http://sequel.rubyforge.org/rdoc/classes/Sequel.html#M000071
+db_uri: sqlite://mp3duper.sqlite
+
+# change this to your MusicDNS API key. If you don't have one, you can
+# get one here: http://www.musicip.com/dns/index.jsp
+musicdns_key: <insert key here>

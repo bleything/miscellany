@@ -1,38 +1,31 @@
 #!/usr/bin/env ruby
 
+require 'includes/config'
 require 'includes/database'
-
-##############################################################################
-### U T I L I T Y   F U N C T I O N S
-##############################################################################
-
-def log( msg = "" )
-  $stderr.puts msg
-end
-
-$stdout.sync = true
+require 'includes/helpers'
 
 ##############################################################################
 ### S A N I T Y   C H E C K S
 ##############################################################################
 
-unless ARGV[0]
-  log "You must specify a directory to scan:"
-  log "  #{$0} /path/to/music/files"
-  exit
-end
-
-unless File.directory? ARGV[0].gsub( /\\ /, ' ' ) # strip out escaped spaces... sigh
-  log "#{ARGV[0]} is not a directory."
-  exit
+CONFIG[ 'music_paths' ].each do |path|
+  unless File.directory? path
+    log "#{path} is not a directory."
+    exit 1
+  end
 end
 
 ##############################################################################
 ### F I N D   F I L E S   O N   D I S K
 ##############################################################################
 
-log "Finding files in #{ARGV[0]}..."
-disk_files = `find #{ARGV[0].gsub( / /, '\ ' )} -type f`.split( "\n" )
+disk_files = []
+
+CONFIG[ 'music_paths' ].each do |path|
+  log "Finding files in #{path}..."
+  disk_files += `find #{path.gsub( / /, '\ ' )} -type f`.split( "\n" )
+end
+
 log "...done! Found #{disk_files.size} files."
 
 log # blank line
