@@ -1,0 +1,19 @@
+========================================================================
+appsort
+Copyright 2009 Ben Bleything <ben@bleything.net>
+Provided under the BSD license.
+========================================================================
+
+A collection of utilities to reorder the applications on your iPhone
+SpringBoard.  Requires you to grab a file from your iPhone:
+
+  /User/Library/Preferences/com.apple.springboard.plist
+
+and convert it to XML format:
+
+  $ plutil -convert xml1 com.apple.springboard.plist
+
+Be sure to convert that file back to binary format before putting it back
+on your phone:
+
+  $ plutil -convert binary1 com.apple.springboard.plist
