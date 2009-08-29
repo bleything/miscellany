@@ -17,7 +17,7 @@ log "done!"
 
 log # blank line
 
-log "Found #{@mp3s.size} files, of which:"
+log "Found #{@mp3s.count} files, of which:"
 log "  * #{hashed_files.size} have been hashed, and"
 log "  * #{fingerprinted_files.size} have been fingerprinted."
 

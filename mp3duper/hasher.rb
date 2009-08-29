@@ -10,7 +10,7 @@ require 'includes/helpers'
 
 log "Fetching files from the database..."
 db_files = @mp3s.filter( :hashed => false ).map( :path )
-log "...done! Found #{@mp3s.size} files, of which #{db_files.size} need to be hashed."
+log "...done! Found #{@mp3s.count} files, of which #{db_files.size} need to be hashed."
 
 log # blank line
 
