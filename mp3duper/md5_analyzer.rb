@@ -4,7 +4,7 @@ require 'includes/database'
 
 ### Discovers all files whose md5 hashes are the same
 
-duplicate_md5s = DB[ 
+duplicate_md5s = DB[
   "SELECT md5                " +
   "FROM mp3s                 " +
   "WHERE md5 IS NOT NULL AND " +
@@ -18,7 +18,7 @@ duplicate_md5s.each do |dupe|
   duplicate_files = DB.from( :mp3s ).
     filter( :md5 => dupe[:md5], :actuallymusic => true ).
     map( :path )
-  
+
   puts dupe[:md5]
   puts "=" * dupe[:md5].length
 
