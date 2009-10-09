@@ -60,13 +60,9 @@ print "Adding new files to the database"
 
 count = 0
 new_files.each do |path|
-  if NON_MUSIC_EXTENSIONS.include? path.split( '.' ).last
-    actually_music = false
-  else
-    actually_music = nil # we don't want to decide it's actually music *yet*
-  end
+  next if NON_MUSIC_EXTENSIONS.include? path.split( '.' ).last
 
-  @mp3s.insert( :path => path, :actuallymusic => actually_music )
+  @mp3s.insert( :path => path )
 
   count += 1
 

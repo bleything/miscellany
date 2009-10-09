@@ -6,8 +6,7 @@ require 'includes/database'
 duplicate_md5s = DB[
   "SELECT md5                " +
   "FROM mp3s                 " +
-  "WHERE md5 IS NOT NULL AND " +
-  "actuallymusic IS true     " +
+  "WHERE md5 IS NOT NULL     " +
   "GROUP BY md5              " +
   "HAVING COUNT(path) > 1    " +
   "ORDER BY COUNT(path) DESC;"
@@ -15,7 +14,7 @@ duplicate_md5s = DB[
 
 duplicate_md5s.each do |dupe|
   duplicate_files = DB.from( :mp3s ).
-    filter( :md5 => dupe[:md5], :actuallymusic => true ).
+    filter( :md5 => dupe[:md5] ).
     map( :path )
 
   puts dupe[:md5]

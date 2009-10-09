@@ -10,7 +10,7 @@ require 'includes/helpers'
 
 log "Fetching files from the database..."
 db_files = @mp3s.
-  filter(  :fingerprinted => false, :actuallymusic => nil ).map( :path )
+  filter(  :fingerprinted => false ).map( :path )
 
 log "...done! Found #{@mp3s.count} files, of which #{db_files.size} need to be fingerprinted."
 

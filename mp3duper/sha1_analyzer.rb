@@ -6,8 +6,7 @@ require 'includes/database'
 duplicate_sha1s = DB[
   "SELECT sha1                " +
   "FROM mp3s                  " +
-  "WHERE sha1 IS NOT NULL AND " +
-  "actuallymusic IS true      " +
+  "WHERE sha1 IS NOT NULL     " +
   "GROUP BY sha1              " +
   "HAVING COUNT(path) > 1     " +
   "ORDER BY COUNT(path) DESC; "
@@ -15,7 +14,7 @@ duplicate_sha1s = DB[
 
 duplicate_sha1s.each do |dupe|
   duplicate_files = DB.from( :mp3s ).
-    filter( :sha1 => dupe[:sha1], :actuallymusic => true ).
+    filter( :sha1 => dupe[:sha1] ).
     map( :path )
 
   puts dupe[:sha1]
