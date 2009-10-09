@@ -3,7 +3,6 @@
 require 'includes/database'
 
 ### Discovers all files whose md5 hashes are the same
-
 duplicate_md5s = DB[
   "SELECT md5                " +
   "FROM mp3s                 " +

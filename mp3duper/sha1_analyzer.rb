@@ -3,8 +3,7 @@
 require 'includes/database'
 
 ### Discovers all files whose sha1 hashes are the same
-
-duplicate_sha1s = DB[ 
+duplicate_sha1s = DB[
   "SELECT sha1                " +
   "FROM mp3s                  " +
   "WHERE sha1 IS NOT NULL AND " +
@@ -18,7 +17,7 @@ duplicate_sha1s.each do |dupe|
   duplicate_files = DB.from( :mp3s ).
     filter( :sha1 => dupe[:sha1], :actuallymusic => true ).
     map( :path )
-  
+
   puts dupe[:sha1]
   puts "=" * dupe[:sha1].length
 
