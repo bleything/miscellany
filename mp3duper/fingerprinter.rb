@@ -34,17 +34,17 @@ count = 0
 
 db_files.each do |path|
   output = `genpuid/genpuid #{CONFIG['musicdns_key']} "#{path}"`
-  
+
   if output =~ /Incorrect MusicDNS key/
     log "MusicDNS rejected your key.  Please check their site and update your config.yml."
     exit 1
   end
-  
+
   # mark the file as seen so we'll skip it next time even if there's no
   # PUID.  This prevents us from cranking over the same broken files every
   # time we start up
   @mp3s.filter( :path => path ).update( :fingerprinted => true )
-  
+
   # if puid
   if puid = output.match( /puid: (.*)$/ )[1] rescue nil
     # update with the new PUID
@@ -54,10 +54,10 @@ db_files.each do |path|
     # if we don't get a PUID out of genpuid, let's just move along
     symbol = '.'
   end
-  
+
   # status display
   count += 1
-  
+
   if ( count % 10 ) == 0
     print count
   else

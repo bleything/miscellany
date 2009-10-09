@@ -29,14 +29,14 @@ db_files.each do |path|
   rescue Errno::ENOENT
     # file does not exist
     missing_files << path
-    
+
     symbol = '-'
   else
     symbol = '.'
   end
-  
+
   count += 1
-  
+
   if( count % 10 ) == 0
     print count
   else
@@ -73,7 +73,7 @@ until input =~ /^(remove|quit)$/
     missing_files.each {|f| log " - #{f}"}
 
     log # blank line
-    
+
     # we want to start the loop over
     input = nil
   end
@@ -84,7 +84,7 @@ if input == 'quit'
   exit
 else
   print "Removing #{missing_files.size} files from the database"
-  
+
   count = 0
   missing_files.each do |path|
     @mp3s.filter( :path => path ).delete
