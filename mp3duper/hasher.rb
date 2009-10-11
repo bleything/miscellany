@@ -18,7 +18,6 @@ log # blank line
 ### G E N E R A T E   H A S H E S   F O R   F I L E S
 ##############################################################################
 
-require 'digest/md5'
 require 'digest/sha1'
 
 print "Finding hashes and sizes for #{db_files.size} files"
@@ -27,12 +26,10 @@ count = 0
 
 db_files.each do |path|
   sha1 = Digest::SHA1.file( path ).hexdigest
-  md5  = Digest::MD5.file(  path ).hexdigest
   size = File.size( path )
 
   @mp3s.filter( :path => path ).update(
     :sha1   => sha1,
-    :md5    => md5,
     :size   => size,
     :hashed => true
   )

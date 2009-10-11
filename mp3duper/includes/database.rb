@@ -21,7 +21,6 @@ DB.create_table :mp3s do
   # fingerprints
   varchar :puid, :index => true
   varchar :sha1, :index => true
-  varchar :md5,  :index => true
 
   # status markers
   boolean :fingerprinted, :index => true, :default => false
