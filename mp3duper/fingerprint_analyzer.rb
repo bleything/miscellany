@@ -21,7 +21,7 @@ duplicate_puids.each do |dupe|
   puts dupe[:puid]
   puts "=" * dupe[:puid].length
 
-  duplicate_files.each do |dupe|
+  duplicate_files.sort.each do |dupe|
     puts "#{dupe[:size]} -- #{dupe[:path]}"
   end
 

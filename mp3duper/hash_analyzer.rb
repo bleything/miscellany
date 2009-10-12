@@ -20,7 +20,7 @@ duplicate_sha1s.each do |dupe|
   puts dupe[:sha1]
   puts "=" * dupe[:sha1].length
 
-  puts duplicate_files.join( "\n" )
+  puts duplicate_files.sort.join( "\n" )
 
   puts
 end
