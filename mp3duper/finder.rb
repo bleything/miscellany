@@ -23,7 +23,9 @@ disk_files = []
 
 CONFIG[ 'music_paths' ].each do |path|
   log "Finding files in #{path}..."
-  disk_files += `find #{path.gsub( / /, '\ ' )} -type f`.split( "\n" )
+  disk_files += `find #{path.gsub( / /, '\ ' )} -type f`.
+    split( "\n" ).
+    reject {|path| NON_MUSIC_EXTENSIONS.include? path.split( '.' ).last }
 end
 
 log "...done! Found #{disk_files.size} files."
@@ -60,8 +62,6 @@ print "Adding new files to the database"
 
 count = 0
 new_files.each do |path|
-  next if NON_MUSIC_EXTENSIONS.include? path.split( '.' ).last
-
   @mp3s.insert( :path => path )
 
   count += 1
