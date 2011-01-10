@@ -7,6 +7,7 @@ duplicate_sha1s = DB[
   "SELECT sha1                " +
   "FROM mp3s                  " +
   "WHERE sha1 IS NOT NULL     " +
+  "AND ignored = false        " +
   "GROUP BY sha1              " +
   "HAVING COUNT(path) > 1     " +
   "ORDER BY COUNT(path) DESC; "

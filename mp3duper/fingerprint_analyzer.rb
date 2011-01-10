@@ -7,6 +7,7 @@ duplicate_puids = DB[
   "SELECT puid                " +
   "FROM mp3s                  " +
   "WHERE puid IS NOT NULL     " +
+  "AND ignored = false        " +
   "GROUP BY puid              " +
   "HAVING COUNT(path) > 1     " +
   "ORDER BY COUNT(path) DESC; "
