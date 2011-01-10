@@ -25,7 +25,7 @@ CONFIG[ 'music_paths' ].each do |path|
   log "Finding files in #{path}..."
   disk_files += `find #{path.gsub( / /, '\ ' )} -type f`.
     split( "\n" ).
-    reject {|path| NON_MUSIC_EXTENSIONS.include? path.split( '.' ).last }
+    reject {|path| NON_MUSIC_EXTENSIONS.include? path.split( '.' ).last.downcase }
 end
 
 log "...done! Found #{disk_files.size} files."
